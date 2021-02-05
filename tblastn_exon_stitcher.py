@@ -1,16 +1,15 @@
-#!/usr/bin/python
-
 import re; import os; import Bio; from Bio import SeqIO
-directory="/Users/gregory/Desktop/scripts_for_DecelleLab/exon_stitcher/trebouxiophyte_SWEET_tblastn_alignments/"
-outfilename=directory+'trebouxiophytes_combined_tblastn_sweets_untrimmed.faa'
+cwd=os.getcwd()
+dir_w_alignments=cwd+'/test_tblastn_data/'
+outfilename=cwd+'/test.faa'
 
 with open(outfilename, 'a') as outfile:
-    for aln_filename in os.listdir(directory):
+    for aln_filename in os.listdir(dir_w_alignments):
         hypothetical_protein=''; exon= ''; new_seqid=''; list_of_used_midpoints=[]; list_of_exons_in_this_hit=[]; total_exons=0; query_length=0; seqcount = 0; start_list=[]; pos=0; exon_dict={}
         if aln_filename.endswith(".aln"):
         
             print('\n********************************\n\nProcessing ' + aln_filename)
-            for record in SeqIO.parse(directory + aln_filename, "fasta"):
+            for record in SeqIO.parse(dir_w_alignments + aln_filename, "fasta"):
                 seqcount +=1; exon=''; hypothetical_protein=''
                 if seqcount == 1: query_length = len(record.seq)## If it's the query sequence, check it's length
                 else:
@@ -47,3 +46,4 @@ with open(outfilename, 'a') as outfile:
             new_seq_id=aln_filename.replace('.aln','')+'_'+str(total_exons)+'exons'
         
             outfile.write('>'+new_seq_id+'\n'+hypothetical_protein+'\n')
+
