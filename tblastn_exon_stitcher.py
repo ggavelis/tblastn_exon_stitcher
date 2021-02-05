@@ -1,7 +1,11 @@
-import re; import os; import Bio; from Bio import SeqIO
-cwd=os.getcwd()
-dir_w_alignments=cwd+'/test_tblastn_data/'
-outfilename=cwd+'/test.faa'
+import re; import os; import sys; import Bio; from Bio import SeqIO
+cwd=os.getcwd()+'/'
+
+if len(sys.argv) < 2:
+	sys.exit(print("requires two arguments:\n1: dir_containing_alignments (each alignment file must end with '.aln')\n2: output_file_name\n\n\nexample_usage: 'python tblastn_exon_stitcher.py test_tblastn_data test.faa'\n\nExiting."))
+
+dir_w_alignments=cwd+sys.argv[1]+'/'
+outfilename=cwd+sys.argv[2]
 
 with open(outfilename, 'a') as outfile:
     for aln_filename in os.listdir(dir_w_alignments):
